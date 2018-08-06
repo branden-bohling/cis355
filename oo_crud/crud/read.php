@@ -1,20 +1,24 @@
 <?php
     require 'database.php';
+    include 'customers.php';
+    
+    $cust1 =  new Customers();
     $id = null;
+    // create a new customer and variable for id
+    
     if ( !empty($_GET['id'])) {
+        // get id and set variable
         $id = $_REQUEST['id'];
     }
      
     if ( null==$id ) {
         header("Location: index.php");
     } else {
-        $pdo = Database::connect();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM customers where id = ?";
-        $q = $pdo->prepare($sql);
-        $q->execute(array($id));
-        $data = $q->fetch(PDO::FETCH_ASSOC);
-        Database::disconnect();
+        // read the based on ID
+        // this also initializes the 
+        // new object with these variables 
+        // from the database
+        $cust1->read($id);
     }
 ?>
  
@@ -39,7 +43,7 @@
                         <label class="control-label">Name</label>
                         <div class="controls">
                             <label class="checkbox">
-                                <?php echo $data['name'];?>
+                                <?php echo $cust1->getName(); ?>
                             </label>
                         </div>
                       </div>
@@ -47,7 +51,7 @@
                         <label class="control-label">Email Address</label>
                         <div class="controls">
                             <label class="checkbox">
-                                <?php echo $data['email'];?>
+                                <?php echo $cust1->getEmail(); ?>
                             </label>
                         </div>
                       </div>
@@ -55,7 +59,7 @@
                         <label class="control-label">Mobile Number</label>
                         <div class="controls">
                             <label class="checkbox">
-                                <?php echo $data['mobile'];?>
+                                <?php echo $cust1->getPhone(); ?>
                             </label>
                         </div>
                       </div>

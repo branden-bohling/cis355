@@ -1,90 +1,56 @@
+ <?php
+    require 'database.php';
+    include 'customers.php';
+    
+    $cust1 = new Customers();
+    //create a new Customers object
+    
+    if ( !empty($_POST)) {
+        // Initialize new customers object 
+        // and then create that object in the database
+	$cust1 = new Customers($_POST['name'], $_POST['email'], $_POST['mobile']);
+        $cust1->create();
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <?php Customers::importBootstrap(); ?>
 </head>
- <?php
-     
-    require 'database.php';
- 
-    if ( !empty($_POST)) {
-        // keep track validation errors
-        $nameError = null;
-        $emailError = null;
-        $mobileError = null;
-         
-        // keep track post values
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $mobile = $_POST['mobile'];
-         
-        // validate input
-        $valid = true;
-        if (empty($name)) {
-            $nameError = 'Please enter Name';
-            $valid = false;
-        }
-         
-        if (empty($email)) {
-            $emailError = 'Please enter Email Address';
-            $valid = false;
-        } else if ( !filter_var($email,FILTER_VALIDATE_EMAIL) ) {
-            $emailError = 'Please enter a valid Email Address';
-            $valid = false;
-        }
-         
-        if (empty($mobile)) {
-            $mobileError = 'Please enter Mobile Number';
-            $valid = false;
-        }
-         
-        // insert data
-        if ($valid) {
-            $pdo = Database::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "INSERT INTO customers (name,email,mobile) values(?, ?, ?)";
-            $q = $pdo->prepare($sql);
-            $q->execute(array($name,$email,$mobile));
-            Database::disconnect();
-            header("Location: index.php");
-        }
-    }
-?>
 <body>
     <div class="container">
-     
+            
                 <div class="span10 offset1">
                     <div class="row">
                         <h3>Create a Customer</h3>
                     </div>
              
                     <form class="form-horizontal" action="create.php" method="post">
-                      <div class="control-group <?php echo !empty($nameError)?'error':'';?>">
+                      <div class="control-group <?php echo !empty($cust1->getNameError())?'error':'';?>">
                         <label class="control-label">Name</label>
                         <div class="controls">
-                            <input name="name" type="text"  placeholder="Name" value="<?php echo !empty($name)?$name:'';?>">
-                            <?php if (!empty($nameError)): ?>
-                                <span class="help-inline"><?php echo $nameError;?></span>
+                            <input name="name" type="text"  placeholder="Name" value="<?php echo !empty($cust1->getName())?$cust1->getName():'';?>">
+                            <?php if (!empty($cust1->getNameError())): ?>
+                            <span class="help-inline"><?php echo $cust1->getNameError();?></span>
                             <?php endif; ?>
                         </div>
                       </div>
-                      <div class="control-group <?php echo !empty($emailError)?'error':'';?>">
+                        <div class="control-group <?php echo !empty($cust1->getEmailError())?'error':'';?>">
                         <label class="control-label">Email Address</label>
                         <div class="controls">
-                            <input name="email" type="text" placeholder="Email Address" value="<?php echo !empty($email)?$email:'';?>">
-                            <?php if (!empty($emailError)): ?>
-                                <span class="help-inline"><?php echo $emailError;?></span>
+                            <input name="email" type="text" placeholder="Email Address" value="<?php echo !empty($cust1->getEmail())?$cust1->getEmail():'';?>">
+                            <?php if (!empty($cust1->getEmailError())): ?>
+                                <span class="help-inline"><?php echo $cust1->getEmailError();?></span>
                             <?php endif;?>
                         </div>
                       </div>
-                      <div class="control-group <?php echo !empty($mobileError)?'error':'';?>">
+                        <div class="control-group <?php echo !empty($cust1->getMobileError())?'error':'';?>">
                         <label class="control-label">Mobile Number</label>
                         <div class="controls">
-                            <input name="mobile" type="text"  placeholder="Mobile Number" value="<?php echo !empty($mobile)?$mobile:'';?>">
-                            <?php if (!empty($mobileError)): ?>
-                                <span class="help-inline"><?php echo $mobileError;?></span>
+                            <input name="mobile" type="text"  placeholder="Mobile Number" value="<?php echo !empty($cust1->getPhone())?$cust1->getPhone():'';?>">
+                            <?php if (!empty($cust1->getMobileError())): ?>
+                                <span class="help-inline"><?php echo $cust1->getMobileError();?></span>
                             <?php endif;?>
                         </div>
                       </div>
@@ -94,7 +60,6 @@
                         </div>
                     </form>
                 </div>
-                 
     </div> <!-- /container -->
   </body>
 </html>

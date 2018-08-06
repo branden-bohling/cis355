@@ -13,100 +13,31 @@
         public $location;
 		public $description;
 		public $id;
-		function displayDelete(){
-			Events::importBootstrap();
-			echo'
-<body>
-    <div class="container">
-     
-                <div class="span10 offset1">
-                    <div class="row">
-                        <h3>Delete an Event</h3>
-                    </div>
-                     
-                    <form class="form-horizontal" action="event_delete.php" method="post">
-                      <input type="hidden" name="id" value="<?php echo $id;?>"/>
-                      <p class="alert alert-error">Are you sure to delete ?</p>
-                      <div class="form-actions">
-                          <button type="submit" class="btn btn-danger">Yes</button>
-                          <a class="btn" href="index.php">No</a>
-                        </div>
-                    </form>
-                </div>
-                 
-    </div> <!-- /container -->
-  </body>';
-		}
-		function deleteRecord(){
-			$id = 0;
-			 
-			if ( !empty($_GET['id'])) {
-				$id = $_REQUEST['id'];
-			}
-			 
-			if ( !empty($_POST)) {
-				// keep track post values
-				$id = $_POST['id'];
-				 
-				// delete data
-				$pdo = Database::connect();
-				$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				$sql = "DELETE FROM events  WHERE id = ?";
-				$q = $pdo->prepare($sql);
-				$q->execute(array($id));
-				Database::disconnect();
-				header("Location: index.php");
-				 
-			}
-		}
-	  
-		function __construct($myDate,$myTime,$myLocation,$myDescription,$myId){
+		
+		
+		function __construct($myDate = null,$myTime= null,$myLocation= null,$myDescription= null,$myId= null){
 			$this->date = $myDate;
 			$this->time = $myTime;
 			$this->location = $myLocation;
 			$this->description = $myDescription;
 			$this->id = $myId;
 			
-		}
+		}	
 		
-		function validateInput(){
-			$valid = true;
-			if (empty($this->$date)) {
-				$this->$dateError = 'Please enter Event Date';
-				$valid = false;
-			}
-			 
-			if (empty($this->$time)) {
-				$this->$timeError = 'Please enter Event Time';
-				$valid = false;
-			} 
-			 
-			if (empty($this->$location)) {
-				$this->$locationError = 'Please enter Event Location';
-				$valid = false;
-			}
-					  
-			if (empty($this->$description)) {
-				$this->$descriptionError = 'Please enter Event Description';
-				$valid = false;
-			}
-			return $valid;
-		}
-		function getDate(){
-			return $this->date;
-		}
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		function retrieveRecord(){
 		  
 		$id = null;
@@ -181,6 +112,98 @@
 				</div> <!-- /container -->';
 	  }
 	  
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		function displayDelete(){
+			Events::importBootstrap();
+			echo'
+			<body>
+				<div class="container">
+				 
+							<div class="span10 offset1">
+								<div class="row">
+									<h3>Delete an Event</h3>
+								</div>
+								 
+								<form class="form-horizontal" action="event_delete.php" method="post">
+								  <input type="hidden" name="id" value="<?php echo $id;?>"/>
+								  <p class="alert alert-error">Are you sure to delete ?</p>
+								  <div class="form-actions">
+									  <button type="submit" class="btn btn-danger">Yes</button>
+									  <a class="btn" href="index.php">No</a>
+									</div>
+								</form>
+							</div>
+							 
+				</div> <!-- /container -->
+			  </body>';
+		}
+		function deleteRecord(){
+			$id = 0;
+			 
+			if ( !empty($_GET['id'])) {
+				$id = $_REQUEST['id'];
+			}
+			 
+			if ( !empty($_POST)) {
+				// keep track post values
+				$id = $_POST['id'];
+				 
+				// delete data
+				$pdo = Database::connect();
+				$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				$sql = "DELETE FROM events  WHERE id = ?";
+				$q = $pdo->prepare($sql);
+				$q->execute(array($id));
+				Database::disconnect();
+				header("Location: index.php");
+				 
+			}
+		}
+		
+		function validateInput(){
+			$valid = true;
+			if (empty($this->$date)) {
+				$this->$dateError = 'Please enter Event Date';
+				$valid = false;
+			}
+			 
+			if (empty($this->$time)) {
+				$this->$timeError = 'Please enter Event Time';
+				$valid = false;
+			} 
+			 
+			if (empty($this->$location)) {
+				$this->$locationError = 'Please enter Event Location';
+				$valid = false;
+			}
+					  
+			if (empty($this->$description)) {
+				$this->$descriptionError = 'Please enter Event Description';
+				$valid = false;
+			}
+			return $valid;
+		}
+		function getDate(){
+			return $this->date;
+		}
+
+
+	  
 		function importBootstrap(){
 			echo '<!DOCTYPE html>
 			<html lang="en">
@@ -192,25 +215,7 @@
 					
 			</head>';
 		}
-		
-		function displayupdateHeading(){
-			echo '<body>
-			<div class="container">
-			 
-						<div class="span10 offset1">
-							<div class="row">
-								<h3>Update an Event</h3>
-							</div>';
-		}
-		
-		function displayUpdateFooter(){
-			echo ' </div>
-                 
-    </div> <!-- /container -->
-  </body>
-</html>';
-		}
-		
+
 		function displayListHeading(){
 			echo'<body>
 				<div class="container">

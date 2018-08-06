@@ -1,23 +1,22 @@
 <?php
     require 'database.php';
+    include 'customers.php';
+    
+    $cust1 = new Customers();
     $id = 0;
-     
+    // create a new customer and variable for id
+    
     if ( !empty($_GET['id'])) {
+        // get id and set variable
         $id = $_REQUEST['id'];
     }
      
     if ( !empty($_POST)) {
-        // keep track post values
+        // update id, read the record
+        // then delete record
         $id = $_POST['id'];
-         
-        // delete data
-        $pdo = Database::connect();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "DELETE FROM customers  WHERE id = ?";
-        $q = $pdo->prepare($sql);
-        $q->execute(array($id));
-        Database::disconnect();
-        header("Location: index.php");
+        $cust1->read($id);
+        $cust1->delete();
          
     }
 ?>
@@ -26,8 +25,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link   href="css/bootstrap.min.css" rel="stylesheet">
-    <script src="js/bootstrap.min.js"></script>
+    
+    <?php Customers::importBootstrap(); ?>
+    
 </head>
  
 <body>
@@ -40,7 +40,8 @@
                      
                     <form class="form-horizontal" action="delete.php" method="post">
                       <input type="hidden" name="id" value="<?php echo $id;?>"/>
-                      <p class="alert alert-error">Are you sure to delete ?</p>
+                      <p class="alert alert-error">Are you sure you want to delete this customer?</p>
+                      <div class="container">
                       <div class="form-actions">
                           <button type="submit" class="btn btn-danger">Yes</button>
                           <a class="btn" href="index.php">No</a>
@@ -48,6 +49,6 @@
                     </form>
                 </div>
                  
-    </div> <!-- /container -->
+    </div> <!-- /containerr -->
   </body>
 </html>

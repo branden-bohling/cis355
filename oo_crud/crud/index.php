@@ -1,11 +1,9 @@
   <?php
 		include 'database.php';
 		include 'customers.php';
-		include 'events.php';
-		//import the customer and events class
+		//import the customer class
    
-		Events::displayTable();
-		//Display the table of events
+		echo '<a href="https://github.com/branden-bohling/cis355">Github</a>';
 		Customers::displayTable();
   ?>
   
