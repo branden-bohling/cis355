@@ -200,7 +200,7 @@
                             </tr>
                         </thead>
                         <tbody>';
-                Customers::loadTableContents();
+            Customers::loadTableContents();
             echo'</tbody>
                 </table>
                 </div>
