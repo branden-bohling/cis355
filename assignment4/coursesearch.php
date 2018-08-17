@@ -16,6 +16,7 @@ function printForm(){
 	echo "<input type='text' placeholder='116' name='courseNumber'><br/>";
 	echo "Instructor<br/>";
 	echo "<input type='text' placeholder='gpcorser' name='instructor'><br/>";
+<<<<<<< HEAD
         echo "Course occurs on:<br/>";
 	echo "<select name='dayOfWeek'>
             <option value=''>Any Day</option>
@@ -27,6 +28,8 @@ function printForm(){
         </select>"
         . "<br/><br/>";
         
+=======
+>>>>>>> 83c4e8a24b7f220697a1a595a676f2fb7dfebae1
 	//echo "Building/Room<br/>";
 	//echo "<input type='text' name='building'>";
 	//echo "<input type='text' name='room'><br/>";
